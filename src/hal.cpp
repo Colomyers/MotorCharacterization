@@ -8,8 +8,8 @@ void init_HAL(){
     #define PCNT_UNIT PCNT_UNIT_0
     #define PCNT_H_LIM_VAL 10000
     #define PCNT_L_LIM_VAL -10000
-    #define FILTER_VAL 1000 //necessary to calibrate 
-    #define INTERVAL 16.67 //necessary to calibrate
+    #define FILTER_VAL 900 //necessary to calibrate default 1000
+    #define INTERVAL 1000 //necessary to calibrate
     old = 0; 
 };
 
@@ -54,6 +54,33 @@ float calculate_RPM(int revolutions) {
   pcnt_get_counter_value(PCNT_UNIT, &count);
   pcnt_counter_clear(PCNT_UNIT); 
   float calc_rpm = ((count/delta)/revolutions)*60.0; 
+
   return calc_rpm;
 
+}
+
+
+float moving_AVG(float value) {
+  const int nvalues = 600;             // default:600 Moving average window size window size for t=50: 100, 
+
+  static int current = 0;            // Index for current value
+  static int cvalues = 0;            // Count of values read (<= nvalues)
+  static float sum = 0;               // Rolling sum
+  static float values[nvalues];
+
+  sum += value;
+
+  // If the window is full, adjust the sum by deleting the oldest value
+  if (cvalues == nvalues)
+    sum -= values[current];
+
+  values[current] = value;          // Replace the oldest with the latest
+
+  if (++current >= nvalues)
+    current = 0;
+
+  if (cvalues < nvalues)
+    cvalues += 1;
+
+  return sum/cvalues;
 }

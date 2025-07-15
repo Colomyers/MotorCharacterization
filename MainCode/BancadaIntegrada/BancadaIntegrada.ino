@@ -59,7 +59,7 @@ void loop() {
   long PWM_input = map(PWM_percentage,0,100,LowerPPMlimit,UpperPPMlimit);
   ESC.write(PWM_input);
 
-  if (PWM_percentage > 100){
+  if (PWM_percentage > 101){
     FINISH = true;
     PWM_percentage = 0;
   }
@@ -67,14 +67,14 @@ void loop() {
     Serial.print("DATA,");
     Serial.print((agora - TempoInicial) / 1000.0, 3); Serial.print(",");
     Serial.print(PWM_percentage);                     Serial.print(",");
-    Serial.print(scale.get_units(20), 1);             Serial.print(",");
+    Serial.print(scale.get_units(10), 1);             Serial.print(",");
     Serial.print(0);                                  Serial.print(",");
     Serial.print(0);                                  Serial.print(",");
     Serial.println(rpm_avg);
     TempoAnterior = millis();
   }
   if ((agora - TempoPWM > 5000) && FINISH == false){
-    PWM_percentage = PWM_percentage +5;
+    PWM_percentage = PWM_percentage +1;
     TempoPWM = millis();
   }
   

@@ -1,4 +1,4 @@
-#include "hal.h"
+
 #include <Arduino.h>
 #include "driver/pcnt.h"
 unsigned long old;

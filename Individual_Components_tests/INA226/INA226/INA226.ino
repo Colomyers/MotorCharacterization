@@ -16,6 +16,7 @@ void setup() {
   Serial.begin(115200);
   Wire.begin();
   ina226.init();
+  ina226.setResistorRange(0.003614,20);
 
   /* Set Number of measurements for shunt and bus voltage which shall be averaged
   * Mode *     * Number of samples *

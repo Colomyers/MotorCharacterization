@@ -61,7 +61,7 @@ float calculate_RPM(int revolutions) {
 
 
 float moving_AVG(float value) {
-  const int nvalues = 30;             // default:600 Moving average window size window size for t=50: 100, 
+  const int nvalues = 600;             // default:600 Moving average window size window size for t=50: 100, 
 
   static int current = 0;            // Index for current value
   static int cvalues = 0;            // Count of values read (<= nvalues)
